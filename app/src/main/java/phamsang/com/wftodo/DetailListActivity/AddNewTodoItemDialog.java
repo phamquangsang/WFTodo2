@@ -52,10 +52,10 @@ public class AddNewTodoItemDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Bundle bundle = getArguments();
         if(bundle!=null){
-            mIdItem = bundle.getInt(ID_TODO_ITEM);
-            mListId = bundle.getInt(TODO_ITEM_LIST_ID);
-            mIsDone = bundle.getBoolean(IS_DONE);
-            mContent = bundle.getString(CONTENT);
+            mIdItem = bundle.getInt(ID_TODO_ITEM,-1);
+            mListId = bundle.getInt(TODO_ITEM_LIST_ID,-1);
+            mIsDone = bundle.getBoolean(IS_DONE,false);
+            mContent = bundle.getString(CONTENT,"");
         }else{
             mIdItem = -1;
             mListId =1;

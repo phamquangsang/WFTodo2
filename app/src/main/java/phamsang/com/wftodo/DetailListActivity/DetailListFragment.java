@@ -93,6 +93,9 @@ public class DetailListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AddNewTodoItemDialog dialog = new AddNewTodoItemDialog();
+                Bundle arg = new Bundle();
+                arg.putInt(AddNewTodoItemDialog.TODO_ITEM_LIST_ID,mIdList);
+                dialog.setArguments(arg);
                 dialog.show(getFragmentManager(),DIALOG_ADD_NEW_ITEM);
             }
         });

@@ -1,5 +1,6 @@
 package phamsang.com.wftodo.ToDoListActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import phamsang.com.wftodo.BackgroundTask.CreateNewListTask;
 import phamsang.com.wftodo.BackgroundTask.QueryTodoList;
 import phamsang.com.wftodo.R;
 
@@ -44,8 +46,8 @@ public class TodoListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                CreateNewListTask createListTask = new CreateNewListTask(view.getContext());
+                createListTask.execute();
             }
         });
     }

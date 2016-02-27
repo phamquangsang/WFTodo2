@@ -4,4 +4,5 @@
     <string name="discard">Discard</string>
     <string name="save">Save</string>
     <string name="title_activity_todo_list">TodoListActivity</string>
+    <string name="title">Tittle...</string>
 </resources>

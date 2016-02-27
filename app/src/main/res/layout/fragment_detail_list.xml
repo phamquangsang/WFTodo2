@@ -18,7 +18,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             tools:text="this is Sample"
             android:padding="@dimen/activity_horizontal_margin"
-            android:text="this is title"/>
+            android:text="this is title"
+            android:hint="@string/title"/>
         <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"

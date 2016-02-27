@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import phamsang.com.wftodo.BackgroundTask.CreateNewListTask;
+import phamsang.com.wftodo.BackgroundTask.DeleteTodoListTask;
 import phamsang.com.wftodo.BackgroundTask.QueryTodoItemByListID;
 import phamsang.com.wftodo.BackgroundTask.UpdateTodoListTask;
 import phamsang.com.wftodo.R;
@@ -32,11 +34,17 @@ import phamsang.com.wftodo.data.Contract.TodoItemEntry;
  */
 public class DetailListFragment extends Fragment {
     private static final java.lang.String DIALOG_ADD_NEW_ITEM = AddNewTodoItemDialog.class.getSimpleName();
+    public static final int INVALID_ID_LIST = -1;
 
     private final String LOG_TAG = DetailListFragment.class.getSimpleName();
     private DetailListAdapter mAdapter;
 
+    public void setIdList(int idList) {
+        mIdList = idList;
+    }
+
     public void refeshList(){
+
         Log.d(LOG_TAG,"refeshList() running in DetailListFragment");
         mAdapter.RefeshList();
     }
@@ -76,11 +84,16 @@ public class DetailListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-            mIdList = getArguments().getInt(ARG_ID_LIST);
-            mListTitle = getArguments().getString(ARG_TITLE);
+
+        mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT,1);
+        mIdList = getArguments().getInt(ARG_ID_LIST,-1);
+        mListTitle = getArguments().getString(ARG_TITLE,"");
+        if(mIdList==INVALID_ID_LIST)
+        {
+            CreateNewListTask createTask = new CreateNewListTask(getContext());
+
         }
+
     }
 
     @Override
@@ -181,7 +194,11 @@ public class DetailListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-
+        if(mListTitle=="" && mAdapter.getItemCount()==0){
+            //delete empty ListId
+            DeleteTodoListTask deleteTodoListTask = new DeleteTodoListTask(getContext());
+            deleteTodoListTask.execute(mIdList);
+        }
 
     }
 

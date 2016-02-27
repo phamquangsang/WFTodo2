@@ -124,9 +124,22 @@ public class DetailListFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Toast.makeText(getContext(),s.toString(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),s.toString(),Toast.LENGTH_SHORT).show();
                 mIsTitleChanged=true;
                 mListTitle = s.toString();
+                if(mIsTitleChanged==true){
+                    ContentValues value = new ContentValues();
+                    value.put(Contract.TodoListEntry.COLLUMN_TITLE,mListTitle);
+                    UpdateTodoListTask updateListTask = new UpdateTodoListTask(getContext(),value,mIdList);
+                    updateListTask.execute();
+                    //Toast.makeText(getContext(),mListTitle+" ready to save..",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        titleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
             }
         });
 
@@ -155,15 +168,17 @@ public class DetailListFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        Log.d(LOG_TAG,"onPause() running");
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        if(mIsTitleChanged==true){
-            ContentValues value = new ContentValues();
-            value.put(Contract.TodoListEntry.COLLUMN_TITLE,mListTitle);
-            UpdateTodoListTask updateListTask = new UpdateTodoListTask(getContext(),value,mIdList);
-            updateListTask.execute();
-        }
+
 
     }
 

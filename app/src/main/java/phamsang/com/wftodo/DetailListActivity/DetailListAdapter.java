@@ -208,7 +208,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
                 }while (!dataSet.isAfterLast());
 
             }
-
+            dataSet.close();
             Log.d(LOG_TAG,"cursor size: "+dataSet.getCount()+" - mDataset: "+mDataSet.size());
         }
         else{

@@ -41,7 +41,9 @@ public class BindTodoItemToList extends AsyncTask<Integer ,Void, Cursor> {
         String iDList = Integer.toString(params[0]);
         String[] selectionArg = {iDList};
         Cursor c = db.query(Contract.TodoItemEntry.TABLE_NAME,null,selection,selectionArg,null,null,null,null);
+
         Log.d(LOG_TAG,"load todoItem of "+iDList+" in background: "+c.getCount()+" loaded");
+        db.close();
         return c;
     }
 

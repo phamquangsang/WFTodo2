@@ -68,6 +68,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
                 vh.startActivityDetail();
             }
         });
+        //clear older view
+        holder.mContainer.removeAllViews();
         BindTodoItemToList bindTask = new BindTodoItemToList(mContext,item,holder.mContainer);
         bindTask.execute(item.getIdList());
 //        LayoutInflater inflater =
@@ -130,7 +132,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
                 }while (!dataSet.isAfterLast());
 
             }
-
+            dataSet.close();
             Log.d(LOG_TAG,"cursor size: "+dataSet.getCount()+" - mDataset: "+mDataSet.size());
         }
         else{

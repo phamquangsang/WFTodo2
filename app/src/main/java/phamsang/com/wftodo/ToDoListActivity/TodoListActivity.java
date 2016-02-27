@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -18,6 +19,7 @@ import phamsang.com.wftodo.R;
 
 public class TodoListActivity extends AppCompatActivity {
     public static final int DETAIL_ACTIVITY_REQUEST_CODE=1;
+    private static final String LOG_TAG = TodoListActivity.class.getSimpleName();
     private int mSpanCount = 2;//collumn number of StaggeredLayoutManager
     private RecyclerView mRecyclerView;
     private TodoListAdapter mAdapter;
@@ -51,7 +53,11 @@ public class TodoListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        this.recreate();
+//        //this.recreate();
+//        refeshList();
+//        Log.d(LOG_TAG,"onActivityResult() rungning");
+        recreate();
+
     }
     public void refeshList(){
         QueryTodoList queryTodoList = new QueryTodoList(this, mAdapter);

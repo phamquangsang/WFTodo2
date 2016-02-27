@@ -8,10 +8,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/todo_list_card">
     <LinearLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
         <TextView
             android:id="@+id/text_view_title"
             android:layout_width="match_parent"
@@ -20,6 +20,14 @@
             android:padding="4dp"
             android:paddingLeft="3dp"
             tools:text="this is title"/>
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    </LinearLayout>
+
+
 
     </LinearLayout>
 

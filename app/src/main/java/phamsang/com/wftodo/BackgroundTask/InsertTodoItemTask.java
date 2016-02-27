@@ -34,6 +34,7 @@ public class InsertTodoItemTask extends AsyncTask<ContentValues,Void,Integer> {
                 failed++;
         }
         Log.i(LOG_TAG, "insert todoItem total: "+result+" record(s) - failed: "+failed);
+        db.close();
         return result;
     }
 }

@@ -27,6 +27,7 @@ public class DeleteTodoItemTask extends AsyncTask<Integer, Void, Integer> {
         String[] selectionArg = {params[0].toString()};
         int result = db.delete(Contract.TodoItemEntry.TABLE_NAME,selection,selectionArg);
         Log.i(LOG_TAG, "delete todoItem Id: "+params[0].toString()+" - result code: "+result);
+        db.close();
         return result;
     }
 }

@@ -31,6 +31,7 @@ public class QueryTodoList extends AsyncTask<Integer,Void,Cursor> {
 
         Cursor c = db.query(Contract.TodoListEntry.TABLE_NAME,null,null,null,null,null,null,null);
         Log.d(LOG_TAG,"load all todoList "+" in background: "+c.getCount()+" loaded");
+        db.close();
         return c;
     }
 

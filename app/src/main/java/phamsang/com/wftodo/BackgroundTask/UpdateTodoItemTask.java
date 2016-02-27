@@ -32,6 +32,7 @@ public class UpdateTodoItemTask  extends AsyncTask<Void ,Void, Integer> {
         String selection = Contract.TodoItemEntry._ID+"=?";
         String[] selectionArg = {Integer.toString(mId)};
         int result = db.update(Contract.TodoItemEntry.TABLE_NAME,mValue,selection,selectionArg);
+        db.close();
         return result;
     }
 

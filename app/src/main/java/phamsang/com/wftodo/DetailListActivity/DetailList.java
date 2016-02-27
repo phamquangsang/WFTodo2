@@ -2,6 +2,7 @@ package phamsang.com.wftodo.DetailListActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
+import phamsang.com.wftodo.Color;
 import phamsang.com.wftodo.R;
 import phamsang.com.wftodo.ToDoListActivity.TodoListActivity;
 
@@ -31,11 +35,25 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         setContentView(R.layout.activity_detail_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        int color = bundle.getInt(DetailListFragment.ARG_COLOR,3);
+        toolbar.setBackgroundColor(Color.getCorlor(this, color));
+
+        //set color for status bar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Color.getCorlor(this,color));
+        }
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        Intent intent = getIntent();
+
+
 
 
 
@@ -44,7 +62,7 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         DetailListFragment detailListFragment = new DetailListFragment();
-        detailListFragment.setArguments(intent.getExtras());
+        detailListFragment.setArguments(bundle);
         ft.add(R.id.detail_activity_container,detailListFragment,RECYCLER_FRAGMENT);
         ft.commit();
         Log.d("DetailListActivity","DetailListActivity: onCreate()");

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import phamsang.com.wftodo.BackgroundTask.BindTodoItemToList;
+import phamsang.com.wftodo.Color;
 import phamsang.com.wftodo.DetailListActivity.DetailList;
 import phamsang.com.wftodo.DetailListActivity.DetailListFragment;
 import phamsang.com.wftodo.R;
@@ -31,12 +33,22 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
     private static final String LOG_TAG = TodoListAdapter.class.getSimpleName() ;
 
     private Context mContext;
+
+
     private List<TodoListObject> mDataSet = new ArrayList<TodoListObject>();
+
+
     public TodoListAdapter(Context context, Cursor dataSet) {
         super();
         mContext =context;
         initializeDataset(dataSet);
     }
+
+    public List<TodoListObject> getDataSet() {
+
+        return mDataSet;
+    }
+
 
     @Override
     public TodoListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,6 +65,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         }
 
         TodoListObject item = mDataSet.get(position);
+        holder.mData = item;
+
+        holder.mView.setBackgroundColor(Color.getCorlor(mContext,item.getColor()));
         String title = item.getTitle();
         holder.mIdList = item.getIdList();
         if(title.isEmpty()){
@@ -82,12 +97,24 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
     public int getItemCount() {
         return mDataSet.size();
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private int mIdList;
         private TextView mTitleTextView;
         private View mView;
         private ViewGroup mContainer;
+        private TodoListObject mData;
+
+        public TodoListObject getData(){
+            return mData;
+        }
+
+        public int getIdList() {
+            return mIdList;
+        }
+
         public ViewHolder(View itemView) {
+
             super(itemView);
             mView = itemView;
             mContainer = (ViewGroup)itemView.findViewById(R.id.container);
@@ -99,12 +126,15 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
             Intent intent = new Intent(mContext,DetailList.class);
             Bundle bundle = new Bundle();
             bundle.putInt(DetailListFragment.ARG_ID_LIST,mIdList);
-            bundle.putString(DetailListFragment.ARG_TITLE,mTitleTextView.getText().toString());
+//            bundle.putString(DetailListFragment.ARG_TITLE,mTitleTextView.getText().toString());
+            bundle.putString(DetailListFragment.ARG_TITLE, mData.getTitle());
+            bundle.putInt(DetailListFragment.ARG_COLOR,mData.getColor());
             intent.putExtras(bundle);
 
             ((AppCompatActivity) mContext).startActivityForResult(intent, TodoListActivity.DETAIL_ACTIVITY_REQUEST_CODE);
         }
     }
+
     public void swapCursor(Cursor dataSet){
         initializeDataset(dataSet);
         notifyDataSetChanged();

@@ -11,6 +11,7 @@ import android.util.Log;
 
 import java.util.Calendar;
 
+import phamsang.com.wftodo.Color;
 import phamsang.com.wftodo.DetailListActivity.DetailList;
 import phamsang.com.wftodo.DetailListActivity.DetailListFragment;
 import phamsang.com.wftodo.ToDoListActivity.TodoListActivity;
@@ -23,6 +24,7 @@ import phamsang.com.wftodo.data.TodoDatabaseHelper;
 public class CreateNewListTask extends AsyncTask<ContentValues,Void,Integer> {
     private static final String LOG_TAG = CreateNewListTask.class.getSimpleName() ;
     private Context mContext;
+    private int mColor;
     public CreateNewListTask(Context context) {
         super();
         mContext = context;
@@ -37,7 +39,8 @@ public class CreateNewListTask extends AsyncTask<ContentValues,Void,Integer> {
         long resultId=0;
         ContentValues value = new ContentValues();
         value.put(Contract.TodoListEntry.COLLUMN_TITLE,"");
-        value.put(Contract.TodoListEntry.COLLUMN_COLOR,1);//should be random later
+        mColor = Color.getRandomColor();
+        value.put(Contract.TodoListEntry.COLLUMN_COLOR, mColor);//should be random later
         value.put(Contract.TodoListEntry.COLLUMN_TIME, Calendar.getInstance().getTimeInMillis());
         resultId = db.insert(Contract.TodoListEntry.TABLE_NAME,null,value);
 //        for(int i=0;i<params.length;++i){
@@ -64,6 +67,8 @@ public class CreateNewListTask extends AsyncTask<ContentValues,Void,Integer> {
         Intent intent = new Intent(mContext,DetailList.class);
         Bundle bundle = new Bundle();
         bundle.putInt(DetailListFragment.ARG_ID_LIST,idList);
+        bundle.putString(DetailListFragment.ARG_TITLE,"");
+        bundle.putInt(DetailListFragment.ARG_COLOR,mColor);
         intent.putExtras(bundle);
 
         ((AppCompatActivity) mContext).startActivityForResult(intent, TodoListActivity.DETAIL_ACTIVITY_REQUEST_CODE);

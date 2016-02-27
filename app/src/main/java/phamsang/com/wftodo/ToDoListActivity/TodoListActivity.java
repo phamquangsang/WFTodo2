@@ -10,12 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import phamsang.com.wftodo.BackgroundTask.CreateNewListTask;
+import phamsang.com.wftodo.BackgroundTask.DeleteTodoListTask;
 import phamsang.com.wftodo.BackgroundTask.QueryTodoList;
 import phamsang.com.wftodo.R;
 
@@ -34,6 +36,7 @@ public class TodoListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_todo_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(mSpanCount, StaggeredGridLayoutManager.VERTICAL));
@@ -41,6 +44,27 @@ public class TodoListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         QueryTodoList queryTodoList = new QueryTodoList(this, mAdapter);
         refeshList();
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                TodoListAdapter.ViewHolder todoViewHolder = (TodoListAdapter.ViewHolder)viewHolder;
+                DeleteTodoListTask deleteTodoListTask = new DeleteTodoListTask(getApplicationContext());
+                deleteTodoListTask.execute(todoViewHolder.getIdList());
+
+                mAdapter.getDataSet().remove(todoViewHolder.getData());
+                mAdapter.notifyDataSetChanged();
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

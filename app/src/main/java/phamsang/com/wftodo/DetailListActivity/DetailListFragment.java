@@ -25,6 +25,7 @@ import phamsang.com.wftodo.BackgroundTask.CreateNewListTask;
 import phamsang.com.wftodo.BackgroundTask.DeleteTodoListTask;
 import phamsang.com.wftodo.BackgroundTask.QueryTodoItemByListID;
 import phamsang.com.wftodo.BackgroundTask.UpdateTodoListTask;
+import phamsang.com.wftodo.Color;
 import phamsang.com.wftodo.R;
 import phamsang.com.wftodo.data.Contract;
 import phamsang.com.wftodo.data.Contract.TodoItemEntry;
@@ -59,11 +60,14 @@ public class DetailListFragment extends Fragment {
     public static final String ARG_COLUMN_COUNT = "column-count";
     public static final String ARG_ID_LIST = "id-list";
     public static final String ARG_TITLE = "list_title";
+    public static final String ARG_COLOR = "list_color";
+
     private boolean mIsTitleChanged=false;
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private int mIdList = 1;
     private String mListTitle="";
+    private int mColor;
     private OnListFragmentInteractionListener mListener;
 
     public DetailListFragment() {
@@ -88,6 +92,7 @@ public class DetailListFragment extends Fragment {
         mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT,1);
         mIdList = getArguments().getInt(ARG_ID_LIST,-1);
         mListTitle = getArguments().getString(ARG_TITLE,"");
+        mColor = getArguments().getInt(ARG_COLOR, Color.getRandomColor());
         if(mIdList==INVALID_ID_LIST)
         {
             CreateNewListTask createTask = new CreateNewListTask(getContext());
@@ -100,6 +105,9 @@ public class DetailListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail_list, container, false);
+
+
+
         Context context =getContext();
         FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +132,10 @@ public class DetailListFragment extends Fragment {
         DetailListAdapter adapter = new DetailListAdapter(null,getContext(),mIdList);
         mAdapter = adapter;
         recyclerView.setAdapter(adapter);
+
+        //set up color
+        rootView.setBackgroundColor(Color.getCorlor(getContext(),mColor));
+        recyclerView.setBackgroundColor(Color.getCorlor(getContext(),mColor));
 
         EditText titleEditText = (EditText) rootView.findViewById(R.id.title_edit_text);
         titleEditText.setText(mListTitle);

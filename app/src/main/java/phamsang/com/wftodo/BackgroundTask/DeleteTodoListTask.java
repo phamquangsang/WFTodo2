@@ -17,6 +17,7 @@ public class DeleteTodoListTask extends AsyncTask<Integer, Void, Integer> {
     public DeleteTodoListTask(Context c) {
         super();
         mContext = c;
+
     }
 
     @Override

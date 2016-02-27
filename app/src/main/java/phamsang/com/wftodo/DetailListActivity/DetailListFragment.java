@@ -199,18 +199,21 @@ public class DetailListFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        Log.d(LOG_TAG,"onPause() running");
+        Log.d(LOG_TAG,"onPause() running - mListTitle= "+mListTitle+" - "+" adapter item count: "+mAdapter.getItemCount());
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        if(mListTitle=="" && mAdapter.getItemCount()==0){
+        if(mListTitle.isEmpty() && mAdapter.getItemCount()==0){
             //delete empty ListId
             DeleteTodoListTask deleteTodoListTask = new DeleteTodoListTask(getContext());
             deleteTodoListTask.execute(mIdList);
+
+
         }
+        Log.d(LOG_TAG,"onDetach()");
 
     }
 

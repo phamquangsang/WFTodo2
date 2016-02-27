@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="2dp"
-    android:paddingTop="2dp"
-    xmlns:tool="http://schemas.android.com/tools">
+    android:orientation="horizontal">
     <CheckBox
         android:layout_marginTop="2dp"
         android:layout_width="wrap_content"
@@ -22,9 +22,7 @@
         android:minLines="@integer/min_compat_content_lines"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:padding="3dp"
-        android:text="nhiem vu 1 nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1"
         tool:text="nhiem vu 1"/>
-
 </LinearLayout>
 
 

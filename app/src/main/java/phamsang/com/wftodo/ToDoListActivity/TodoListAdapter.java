@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import phamsang.com.wftodo.data.Contract;
  */
 public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHolder> {
     private static final String LOG_TAG = TodoListAdapter.class.getSimpleName() ;
+
 
     private Context mContext;
 
@@ -83,14 +86,31 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
                 vh.startActivityDetail();
             }
         });
-        //clear older view
-        holder.mContainer.removeAllViews();
-        BindTodoItemToList bindTask = new BindTodoItemToList(mContext,item,holder.mContainer);
-        bindTask.execute(item.getIdList());
-//        LayoutInflater inflater =
-//                (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        inflater.inflate(R.layout.compat_todo_item,holder.mContainer);
-//        inflater.inflate(R.layout.compat_todo_item,holder.mContainer);
+
+//        //clear older view
+//        holder.mContainer.removeAllViews();
+//        BindTodoItemToList bindTask = new BindTodoItemToList(mContext,item,holder.mContainer);
+//        bindTask.execute(item.getIdList());
+
+
+        List<TodoItem> listItem = item.getListItem();
+        int childCount = holder.mContainer.getChildCount();
+        int todoItemCount = listItem.size();
+        int cout = (todoItemCount<childCount)?todoItemCount:childCount;
+        for(int i=0;i<cout;++i){
+            View linearLayout = holder.mContainer.getChildAt(i);
+            if(linearLayout instanceof LinearLayout){
+                ViewGroup container = (ViewGroup)linearLayout;
+                container.setVisibility(View.VISIBLE);
+                CheckBox checkBox = (CheckBox)container.getChildAt(0);
+                TodoItem todoItem = listItem.get(i);
+                checkBox.setChecked((todoItem.getmIsDone()==1?true:false));
+                TextView textView = (TextView)container.getChildAt(1);
+                textView.setText(todoItem.getmContent());
+
+            }
+        }
+
     }
 
     @Override
@@ -156,7 +176,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
                             dataSet.getLong(dataSet.getColumnIndex(Contract.TodoListEntry.COLLUMN_TIME));
                     int color =
                             dataSet.getInt(dataSet.getColumnIndex(Contract.TodoListEntry.COLLUMN_COLOR));
-                    TodoListObject item = new TodoListObject(id,title,color,time);
+                    TodoListObject item = new TodoListObject(mContext,id,title,color,time);
                     mDataSet.add(item);
                     dataSet.moveToNext();
                 }while (!dataSet.isAfterLast());

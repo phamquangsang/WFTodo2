@@ -3,6 +3,7 @@ package phamsang.com.wftodo.ToDoListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -58,7 +60,9 @@ public class TodoListActivity extends AppCompatActivity {
                 deleteTodoListTask.execute(todoViewHolder.getIdList());
 
                 mAdapter.getDataSet().remove(todoViewHolder.getData());
-                mAdapter.notifyDataSetChanged();
+
+                mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                //mAdapter.notifyItemRangeChanged(viewHolder.getAdapterPosition(),mAdapter.getItemCount());
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -76,10 +80,11 @@ public class TodoListActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        //this.recreate();
+//
 //        refeshList();
 //        Log.d(LOG_TAG,"onActivityResult() rungning");
         recreate();
@@ -89,4 +94,7 @@ public class TodoListActivity extends AppCompatActivity {
         QueryTodoList queryTodoList = new QueryTodoList(this, mAdapter);
         queryTodoList.execute();
     }
+
+
+
 }

@@ -110,7 +110,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper {
         item23.put(TodoItemEntry.COLUMN_TIME,"1456297018129");
 
         ContentValues item24 = new ContentValues();
-        item24.put(TodoItemEntry.COLLUMN_CONTENT,"latest version: https://github.com/phamquangsang");
+        item24.put(TodoItemEntry.COLLUMN_CONTENT,"latest version: https://github.com/phamquangsang/WFTodo2.git");
         item24.put(TodoItemEntry.COLLUMN_IS_DONE,"0");
         item24.put(TodoItemEntry.COLLUMN_LIST_ID,"2");
         item24.put(TodoItemEntry.COLUMN_TIME,"1456297018129");

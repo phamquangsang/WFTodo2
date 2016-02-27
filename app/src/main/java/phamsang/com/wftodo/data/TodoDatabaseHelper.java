@@ -16,7 +16,7 @@ import phamsang.com.wftodo.data.Contract.TodoListEntry;
 public class TodoDatabaseHelper extends SQLiteOpenHelper {
     private final String LOG_TAG = TodoDatabaseHelper.class.getSimpleName();
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     static final String DATABASE_NAME = "wftodo.db";
     public TodoDatabaseHelper(Context context){
@@ -33,6 +33,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper {
                 TodoItemEntry.COLLUMN_LIST_ID + " INTEGER NOT NULL, "+
                 " FOREIGN KEY (" + TodoItemEntry.COLLUMN_LIST_ID + ") REFERENCES " +
                 TodoListEntry.TABLE_NAME + " (" + TodoListEntry._ID + ") " +
+                " ON DELETE CASCADE ON UPDATE CASCADE" +
                 ");";
         final String SQL_CREATE_TODO_LIST_TABLE = "CREATE TABLE "+
                 TodoListEntry.TABLE_NAME +" (" +

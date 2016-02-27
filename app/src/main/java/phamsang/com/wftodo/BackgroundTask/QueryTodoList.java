@@ -7,17 +7,18 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import phamsang.com.wftodo.DetailListActivity.DetailListAdapter;
+import phamsang.com.wftodo.ToDoListActivity.TodoListAdapter;
 import phamsang.com.wftodo.data.Contract;
 import phamsang.com.wftodo.data.TodoDatabaseHelper;
 
 /**
- * Created by Quang Quang on 2/24/2016.
+ * Created by Quang Quang on 2/26/2016.
  */
-public class QueryTodoItemByListID extends AsyncTask<Integer ,Void, Cursor> {
+public class QueryTodoList extends AsyncTask<Integer,Void,Cursor> {
     private Context mContext;
-    private DetailListAdapter mAdapter;
+    private TodoListAdapter mAdapter;
     private final String LOG_TAG = QueryTodoItemByListID.class.getSimpleName();
-    public QueryTodoItemByListID(Context context, DetailListAdapter adapter) {
+    public QueryTodoList(Context context, TodoListAdapter adapter) {
         super();
         mContext = context;
         mAdapter = adapter;
@@ -27,17 +28,14 @@ public class QueryTodoItemByListID extends AsyncTask<Integer ,Void, Cursor> {
     protected Cursor doInBackground(Integer... params) {
         TodoDatabaseHelper dbHelper = new TodoDatabaseHelper(mContext);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String selection = Contract.TodoItemEntry.COLLUMN_LIST_ID+"=?";
-        String iDList = Integer.toString(params[0]);
-        String[] selectionArg = {iDList};
-        Cursor c = db.query(Contract.TodoItemEntry.TABLE_NAME,null,selection,selectionArg,null,null,null,null);
-        Log.d(LOG_TAG,"load todoItem of "+iDList+" in background: "+c.getCount()+" loaded");
+
+        Cursor c = db.query(Contract.TodoListEntry.TABLE_NAME,null,null,null,null,null,null,null);
+        Log.d(LOG_TAG,"load all todoList "+" in background: "+c.getCount()+" loaded");
         return c;
     }
 
     @Override
     protected void onPostExecute(Cursor cursor) {
-        super.onPostExecute(cursor);
         mAdapter.swapCursor(cursor);//refresh dataset
     }
 }

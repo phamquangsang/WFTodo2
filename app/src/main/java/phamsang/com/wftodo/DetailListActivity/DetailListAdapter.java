@@ -1,15 +1,11 @@
-package phamsang.com.wftodo;
+package phamsang.com.wftodo.DetailListActivity;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +14,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import phamsang.com.wftodo.BackgroundTask.DeleteTodoItemTask;
-import phamsang.com.wftodo.BackgroundTask.InsertTodoItemTask;
 import phamsang.com.wftodo.BackgroundTask.QueryTodoItemByListID;
 import phamsang.com.wftodo.BackgroundTask.UpdateTodoItemTask;
+import phamsang.com.wftodo.R;
+import phamsang.com.wftodo.TodoItem;
 import phamsang.com.wftodo.data.Contract;
 
 /**
@@ -46,6 +42,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         mContext = context;
         mAdapter = this;
         mIdList = idList;
+        //initializeDataset(dataSet);
         if(dataSet!=null){
             dataSet.moveToFirst();
             mDataSet.clear();
@@ -81,6 +78,13 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
     }
 
     @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.todo_item,parent,false);
+        return new ViewHolder(v);
+    }
+
+    @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if(mDataSet==null){
             return;
@@ -100,12 +104,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
         holder.mTextViewId.setVisibility(View.GONE);
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.todo_item,parent,false);
-        return new ViewHolder(v);
-    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
@@ -182,6 +181,10 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
 
     public void swapCursor(Cursor dataSet){
         Log.d(LOG_TAG,"swaping new cursor");
+        initializeDataset(dataSet);
+        notifyDataSetChanged();;
+    }
+    private void initializeDataset(Cursor dataSet){
         if(dataSet!=null){
 
             //Log.d(LOG_TAG,"cursor size: "+dataSet.getCount());
@@ -212,10 +215,6 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
             Log.d(LOG_TAG,"new cursor is null");
 
         }
-
-
-
-        notifyDataSetChanged();;
     }
     public void addNewsEmptyItem(){
 

@@ -1,36 +1,43 @@
-package phamsang.com.wftodo;
+package phamsang.com.wftodo.DetailListActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import phamsang.com.wftodo.BackgroundTask.QueryTodoItemByListID;
+import phamsang.com.wftodo.BackgroundTask.UpdateTodoListTask;
+import phamsang.com.wftodo.R;
 import phamsang.com.wftodo.data.Contract;
 import phamsang.com.wftodo.data.Contract.TodoItemEntry;
-import phamsang.com.wftodo.data.Contract.TodoListEntry;
-import phamsang.com.wftodo.data.TodoDatabaseHelper;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class DetailListFragment extends Fragment {
     private static final java.lang.String DIALOG_ADD_NEW_ITEM = AddNewTodoItemDialog.class.getSimpleName();
+
     private final String LOG_TAG = DetailListFragment.class.getSimpleName();
     private DetailListAdapter mAdapter;
 
     public void refeshList(){
+        Log.d(LOG_TAG,"refeshList() running in DetailListFragment");
         mAdapter.RefeshList();
     }
 
@@ -41,11 +48,14 @@ public class DetailListFragment extends Fragment {
             TodoItemEntry.COLUMN_TIME};
 
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private static final String ARG_ID_LIST = "id-list";
+    public static final String ARG_COLUMN_COUNT = "column-count";
+    public static final String ARG_ID_LIST = "id-list";
+    public static final String ARG_TITLE = "list_title";
+    private boolean mIsTitleChanged=false;
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private int mIdList = 1;
+    private String mListTitle="";
     private OnListFragmentInteractionListener mListener;
 
     public DetailListFragment() {
@@ -53,11 +63,12 @@ public class DetailListFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static DetailListFragment newInstance(int columnCount,int idList) {
+    public static DetailListFragment newInstance(int columnCount,int idList, String title) {
         DetailListFragment fragment = new DetailListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         args.putInt(ARG_ID_LIST, idList);
+        args.putString(ARG_TITLE,title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,6 +79,7 @@ public class DetailListFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
             mIdList = getArguments().getInt(ARG_ID_LIST);
+            mListTitle = getArguments().getString(ARG_TITLE);
         }
     }
 
@@ -97,6 +109,27 @@ public class DetailListFragment extends Fragment {
         mAdapter = adapter;
         recyclerView.setAdapter(adapter);
 
+        EditText titleEditText = (EditText) rootView.findViewById(R.id.title_edit_text);
+        titleEditText.setText(mListTitle);
+        titleEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Toast.makeText(getContext(),s.toString(),Toast.LENGTH_SHORT).show();
+                mIsTitleChanged=true;
+                mListTitle = s.toString();
+            }
+        });
+
 
         QueryTodoItemByListID queryTask = new QueryTodoItemByListID(context,adapter);
         queryTask.execute(mIdList);
@@ -125,6 +158,13 @@ public class DetailListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        if(mIsTitleChanged==true){
+            ContentValues value = new ContentValues();
+            value.put(Contract.TodoListEntry.COLLUMN_TITLE,mListTitle);
+            UpdateTodoListTask updateListTask = new UpdateTodoListTask(getContext(),value,mIdList);
+            updateListTask.execute();
+        }
+
     }
 
     /**

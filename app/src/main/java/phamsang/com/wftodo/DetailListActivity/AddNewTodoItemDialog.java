@@ -1,25 +1,22 @@
-package phamsang.com.wftodo;
+package phamsang.com.wftodo.DetailListActivity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.KeyguardManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
 import phamsang.com.wftodo.BackgroundTask.InsertTodoItemTask;
 import phamsang.com.wftodo.BackgroundTask.UpdateTodoItemTask;
+import phamsang.com.wftodo.R;
 import phamsang.com.wftodo.data.Contract;
 
 /**

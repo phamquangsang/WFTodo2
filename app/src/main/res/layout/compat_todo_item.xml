@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp"
+    xmlns:tool="http://schemas.android.com/tools">
+    <CheckBox
+        android:layout_marginTop="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox_compat"
+        android:clickable="false"
+        android:focusable="false"
+        android:enabled="false"
+        android:layout_gravity="center_horizontal" />
+    <TextView android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/compat_content_text_view"
+        android:maxLines="@integer/max_compat_content_lines"
+        android:minLines="@integer/min_compat_content_lines"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:padding="3dp"
+        android:text="nhiem vu 1 nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1nhiem vu 1"
+        tool:text="nhiem vu 1"/>
+
+</LinearLayout>
+
+

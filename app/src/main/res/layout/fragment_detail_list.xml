@@ -3,20 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="phamsang.com.wftodo.DetailList">
+    tools:context=".DetailListActivity.DetailList">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/title_text_view"
+            android:id="@+id/title_edit_text"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             tools:text="this is Sample"
             android:padding="@dimen/activity_horizontal_margin"
-            android:text="this is title" />
+            android:text="this is title"/>
         <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:id="@+id/recyclerview"
-            tools:context="phamsang.com.wftodo.DetailListFragment"
+            tools:context=".DetailListActivity.DetailListFragment"
             tools:showIn="@layout/activity_detail_list">
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>

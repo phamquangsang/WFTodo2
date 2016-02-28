@@ -167,16 +167,12 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
                     mDataSet.remove(mPosition);
                     notifyItemRemoved(mPosition);
                     notifyItemRangeChanged(mPosition,mDataSet.size());
-                    //mAdapter.RefeshList();
                 }
             });
 
         }
 
-//        @Override
-//        public String toString() {
-//            return super.toString() + " '" + mContentView.getText() + "'";
-//        }
+
     }
 
     public void swapCursor(Cursor dataSet){
@@ -216,19 +212,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.Vi
 
         }
     }
-    public void addNewsEmptyItem(){
 
-//        InsertTodoItemTask insertTask = new InsertTodoItemTask(mContext);
-//        ContentValues emptyValue = new ContentValues();
-//        emptyValue.put(Contract.TodoItemEntry.COLLUMN_CONTENT,"");
-//        emptyValue.put(Contract.TodoItemEntry.COLLUMN_LIST_ID,mIdList);
-//        emptyValue.put(Contract.TodoItemEntry.COLLUMN_IS_DONE,false);
-//        emptyValue.put(Contract.TodoItemEntry.COLUMN_TIME,0000);
-//        insertTask.execute(emptyValue);
-//        notifyItemInserted(mItemCount);
-//        mItemCount++;
-
-    }
     public void RefeshList(){
         QueryTodoItemByListID queryTask = new QueryTodoItemByListID(mContext,this);
         queryTask.execute(mIdList);

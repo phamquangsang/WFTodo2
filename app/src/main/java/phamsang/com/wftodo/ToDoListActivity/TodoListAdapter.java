@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,8 +16,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import phamsang.com.wftodo.BackgroundTask.BindTodoItemToList;
 import phamsang.com.wftodo.Color;
 import phamsang.com.wftodo.DetailListActivity.DetailList;
 import phamsang.com.wftodo.DetailListActivity.DetailListFragment;
@@ -28,9 +24,7 @@ import phamsang.com.wftodo.TodoItem;
 import phamsang.com.wftodo.TodoListObject;
 import phamsang.com.wftodo.data.Contract;
 
-/**
- * Created by Quang Quang on 2/26/2016.
- */
+
 public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHolder> {
     private static final String LOG_TAG = TodoListAdapter.class.getSimpleName() ;
 
@@ -77,6 +71,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
             holder.mTitleTextView.setVisibility(View.GONE);
         }else{
             holder.mTitleTextView.setText(title);
+            holder.mTitleTextView.setVisibility(View.VISIBLE);
         }
         holder.mView.setTag(holder);
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -86,11 +81,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
                 vh.startActivityDetail();
             }
         });
-
-//        //clear older view
-//        holder.mContainer.removeAllViews();
-//        BindTodoItemToList bindTask = new BindTodoItemToList(mContext,item,holder.mContainer);
-//        bindTask.execute(item.getIdList());
 
 
         List<TodoItem> listItem = item.getListItem();
@@ -150,7 +140,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
             Intent intent = new Intent(mContext,DetailList.class);
             Bundle bundle = new Bundle();
             bundle.putInt(DetailListFragment.ARG_ID_LIST,mIdList);
-//            bundle.putString(DetailListFragment.ARG_TITLE,mTitleTextView.getText().toString());
             bundle.putString(DetailListFragment.ARG_TITLE, mData.getTitle());
             bundle.putInt(DetailListFragment.ARG_COLOR,mData.getColor());
             intent.putExtras(bundle);

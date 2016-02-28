@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">WF Todo</string>
-    <string name="action_settings">Settings</string>
     <string name="discard">Discard</string>
     <string name="save">Save</string>
     <string name="title_activity_todo_list">TodoListActivity</string>

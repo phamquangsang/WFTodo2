@@ -4,31 +4,19 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import java.util.Calendar;
-
-import phamsang.com.wftodo.BackgroundTask.InsertTodoItemTask;
-import phamsang.com.wftodo.BackgroundTask.UpdateTodoItemTask;
 import phamsang.com.wftodo.BackgroundTask.UpdateTodoListTask;
 import phamsang.com.wftodo.Color;
 import phamsang.com.wftodo.R;
 import phamsang.com.wftodo.data.Contract;
 
-/**
- * Created by Quang Quang on 2/28/2016.
- */
+
 public class ChangeColorDialog extends DialogFragment {
     public static final String DIALOG_TAG = "dialog_tag";
     public static final java.lang.String TODO_ITEM_LIST_ID = "todo_item_list_id";
@@ -72,36 +60,6 @@ public class ChangeColorDialog extends DialogFragment {
             });
         }
         builder.setView(rootView);
-//                // Add action buttons
-//                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        String content = editText.getText().toString();
-//                        if(content.isEmpty()==true){
-//                            return;
-//                        }
-//                        Calendar carlendar = Calendar.getInstance();
-//                        final long time = carlendar.getTimeInMillis();
-//                        ContentValues value = new ContentValues();
-//                        value.put(Contract.TodoItemEntry.COLLUMN_CONTENT,content);
-//                        value.put(Contract.TodoItemEntry.COLLUMN_IS_DONE,checkBox.isChecked());
-//                        value.put(Contract.TodoItemEntry.COLUMN_TIME,time);
-//                        value.put(Contract.TodoItemEntry.COLLUMN_LIST_ID,mListId);
-//                        if(mIdItem==-1){//insert to database
-//                            InsertTodoItemTask insertTask = new InsertTodoItemTask(getContext());
-//                            insertTask.execute(value);
-//                        }else{
-//                            UpdateTodoItemTask updateTask = new UpdateTodoItemTask(getContext(),value,mIdItem);
-//                            updateTask.execute();
-//                        }
-//                        mListener.onDialogPositiveClick(AddNewTodoItemDialog.this);
-//                    }
-//                })
-//                .setNegativeButton(R.string.discard, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//                    }
-//                });
         return builder.create();
     }
 
@@ -114,7 +72,7 @@ public class ChangeColorDialog extends DialogFragment {
         super.onAttach(activity);
         // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
+            // Instantiate the ColorPickedListener so we can send events to the host
             mListener = (ColorPickedListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception

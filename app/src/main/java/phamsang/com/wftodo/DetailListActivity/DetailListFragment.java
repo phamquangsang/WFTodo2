@@ -125,12 +125,7 @@ public class DetailListFragment extends Fragment {
         });
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            TodoDatabaseHelper db = new TodoDatabaseHelper(context);
-//            String selection = TodoItemEntry.COLLUMN_LIST_ID+"=?";
-//            String[] selectionArg = {Integer.toString(mIdList)};
-//            Cursor c = db.getReadableDatabase().query(Contract.TodoItemEntry.TABLE_NAME,TodoItemCollumns,selection,selectionArg,null,null,null,null);
-//            Log.d(LOG_TAG,"load todoItem of "+mIdList+": "+c.getCount()+" loaded");
-        //set up adapter
+
 
         DetailListAdapter adapter = new DetailListAdapter(null,getContext(),mIdList);
         mAdapter = adapter;

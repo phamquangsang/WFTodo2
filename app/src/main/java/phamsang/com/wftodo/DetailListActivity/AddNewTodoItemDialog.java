@@ -32,8 +32,7 @@ public class AddNewTodoItemDialog extends DialogFragment {
     public static final String CONTENT = "content";
     //if id from bundle is null -> add new item, else update the old one.
     private int mIdItem;
-//    private EditText mEditext;
-//    private CheckBox mCheckbox;
+
     private int mListId;
     private String mContent;
     private boolean mIsDone;
@@ -94,7 +93,7 @@ public class AddNewTodoItemDialog extends DialogFragment {
                         if(mIdItem==-1){//insert to database
                             InsertTodoItemTask insertTask = new InsertTodoItemTask(getContext());
                             insertTask.execute(value);
-                        }else{
+                        }else{//update
                             UpdateTodoItemTask updateTask = new UpdateTodoItemTask(getContext(),value,mIdItem);
                             updateTask.execute();
                         }

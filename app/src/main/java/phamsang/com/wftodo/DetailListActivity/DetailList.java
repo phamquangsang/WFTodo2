@@ -41,12 +41,7 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         int color = bundle.getInt(DetailListFragment.ARG_COLOR,3);
 
         toolbar.setBackgroundColor(Color.getCorlor(this, color));
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finishActivity(RESULT_CANCELED);
-//            }
-//        });
+
 
         //set color for status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -60,13 +55,6 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
-
-
-
-
-        //create arg and set to fragment;
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         DetailListFragment detailListFragment = new DetailListFragment();
@@ -75,14 +63,6 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         ft.commit();
         Log.d("DetailListActivity","DetailListActivity: onCreate()");
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     @Override
@@ -104,10 +84,8 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }else if(id == R.id.pick_color){
+
+        if(id == R.id.pick_color){
             ChangeColorDialog changeColorDialog = new ChangeColorDialog();
             Bundle arg = getIntent().getExtras();
             Bundle bundle = new Bundle();
@@ -130,9 +108,6 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-//        DetailListFragment fragment =
-//                (DetailListFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_detail_list);
-//        fragment.refeshList();
         DetailListFragment fragment = (DetailListFragment)getSupportFragmentManager().findFragmentByTag(DetailListFragment.RECYCLER_FRAGMENT_TAG);
         fragment.refeshList();
 

@@ -36,6 +36,7 @@ import phamsang.com.wftodo.data.Contract.TodoItemEntry;
 public class DetailListFragment extends Fragment {
     private static final java.lang.String DIALOG_ADD_NEW_ITEM = AddNewTodoItemDialog.class.getSimpleName();
     public static final int INVALID_ID_LIST = -1;
+    public static final String RECYCLER_FRAGMENT_TAG = "recycler_fragment";
 
     private final String LOG_TAG = DetailListFragment.class.getSimpleName();
     private DetailListAdapter mAdapter;
@@ -68,6 +69,8 @@ public class DetailListFragment extends Fragment {
     private int mIdList = 1;
     private String mListTitle="";
     private int mColor;
+    private RecyclerView mRecyclerView;
+    private View mRootView;
     private OnListFragmentInteractionListener mListener;
 
     public DetailListFragment() {
@@ -105,7 +108,7 @@ public class DetailListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail_list, container, false);
-
+        mRootView = rootView;
 
 
         Context context =getContext();
@@ -120,8 +123,8 @@ public class DetailListFragment extends Fragment {
                 dialog.show(getFragmentManager(),DIALOG_ADD_NEW_ITEM);
             }
         });
-        RecyclerView recyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerview);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 //            TodoDatabaseHelper db = new TodoDatabaseHelper(context);
 //            String selection = TodoItemEntry.COLLUMN_LIST_ID+"=?";
 //            String[] selectionArg = {Integer.toString(mIdList)};
@@ -131,11 +134,11 @@ public class DetailListFragment extends Fragment {
 
         DetailListAdapter adapter = new DetailListAdapter(null,getContext(),mIdList);
         mAdapter = adapter;
-        recyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
 
         //set up color
         rootView.setBackgroundColor(Color.getCorlor(getContext(),mColor));
-        recyclerView.setBackgroundColor(Color.getCorlor(getContext(),mColor));
+        mRecyclerView.setBackgroundColor(Color.getCorlor(getContext(),mColor));
 
         EditText titleEditText = (EditText) rootView.findViewById(R.id.title_edit_text);
         titleEditText.setText(mListTitle);
@@ -232,5 +235,10 @@ public class DetailListFragment extends Fragment {
         void onListFragmentInteraction(String dumyData);
     }
 
+    public void changeColor(int color){
+        mColor = color;
+        mRecyclerView.setBackgroundColor(Color.getCorlor(getContext(),color));
+        mRootView.setBackgroundColor(Color.getCorlor(getContext(),color));
+    }
 
 }

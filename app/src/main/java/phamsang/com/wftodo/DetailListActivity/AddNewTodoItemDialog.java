@@ -9,8 +9,10 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.GridLayout;
 
 import java.util.Calendar;
 
@@ -66,6 +68,8 @@ public class AddNewTodoItemDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
+
+
         View rootView = inflater.inflate(R.layout.todo_item_dialog, null);
         editText = (EditText)rootView.findViewById(R.id.edit_text_item);
         checkBox = (CheckBox)rootView.findViewById(R.id.checkBox);

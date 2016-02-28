@@ -18,16 +18,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import phamsang.com.wftodo.Color;
 import phamsang.com.wftodo.R;
 import phamsang.com.wftodo.ToDoListActivity.TodoListActivity;
 
 public class DetailList extends AppCompatActivity implements DetailListFragment.OnListFragmentInteractionListener,
-        AddNewTodoItemDialog.NoticeDialogListener {
+        AddNewTodoItemDialog.NoticeDialogListener, ChangeColorDialog.ColorPickedListener{
 
 
-    private static final String RECYCLER_FRAGMENT = "recycler_fragment";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         int color = bundle.getInt(DetailListFragment.ARG_COLOR,3);
+
         toolbar.setBackgroundColor(Color.getCorlor(this, color));
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -69,7 +71,7 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         FragmentTransaction ft = fragmentManager.beginTransaction();
         DetailListFragment detailListFragment = new DetailListFragment();
         detailListFragment.setArguments(bundle);
-        ft.add(R.id.detail_activity_container,detailListFragment,RECYCLER_FRAGMENT);
+        ft.add(R.id.detail_activity_container,detailListFragment,DetailListFragment.RECYCLER_FRAGMENT_TAG);
         ft.commit();
         Log.d("DetailListActivity","DetailListActivity: onCreate()");
 
@@ -105,6 +107,13 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.pick_color){
+            ChangeColorDialog changeColorDialog = new ChangeColorDialog();
+            Bundle arg = getIntent().getExtras();
+            Bundle bundle = new Bundle();
+            bundle.putInt(ChangeColorDialog.TODO_ITEM_LIST_ID,arg.getInt(DetailListFragment.ARG_ID_LIST));
+            changeColorDialog.setArguments(bundle);
+            changeColorDialog.show(getFragmentManager(),ChangeColorDialog.DIALOG_TAG);
         }
 
         return super.onOptionsItemSelected(item);
@@ -124,8 +133,28 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
 //        DetailListFragment fragment =
 //                (DetailListFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_detail_list);
 //        fragment.refeshList();
-        DetailListFragment fragment = (DetailListFragment)getSupportFragmentManager().findFragmentByTag(RECYCLER_FRAGMENT);
+        DetailListFragment fragment = (DetailListFragment)getSupportFragmentManager().findFragmentByTag(DetailListFragment.RECYCLER_FRAGMENT_TAG);
         fragment.refeshList();
 
+    }
+    private void changeColor(int color){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Color.getCorlor(this,color));
+        }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(Color.getCorlor(this, color));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        FragmentManager fm = getSupportFragmentManager();
+        DetailListFragment detailListFragment =(DetailListFragment)fm.findFragmentByTag(DetailListFragment.RECYCLER_FRAGMENT_TAG);
+        detailListFragment.changeColor(color);
+    }
+
+    @Override
+    public void onColorPicked(int pickedColor) {
+        changeColor(pickedColor);
     }
 }

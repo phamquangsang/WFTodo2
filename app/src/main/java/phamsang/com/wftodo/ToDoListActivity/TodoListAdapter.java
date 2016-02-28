@@ -97,16 +97,20 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         int childCount = holder.mContainer.getChildCount();
         int todoItemCount = listItem.size();
         int cout = (todoItemCount<childCount)?todoItemCount:childCount;
-        for(int i=0;i<cout;++i){
+        for(int i=0;i<childCount;++i){
             View linearLayout = holder.mContainer.getChildAt(i);
             if(linearLayout instanceof LinearLayout){
-                ViewGroup container = (ViewGroup)linearLayout;
-                container.setVisibility(View.VISIBLE);
-                CheckBox checkBox = (CheckBox)container.getChildAt(0);
-                TodoItem todoItem = listItem.get(i);
-                checkBox.setChecked((todoItem.getmIsDone()==1?true:false));
-                TextView textView = (TextView)container.getChildAt(1);
-                textView.setText(todoItem.getmContent());
+                if(i<cout){
+                    ViewGroup container = (ViewGroup)linearLayout;
+                    container.setVisibility(View.VISIBLE);
+                    CheckBox checkBox = (CheckBox)container.getChildAt(0);
+                    TodoItem todoItem = listItem.get(i);
+                    checkBox.setChecked((todoItem.getmIsDone()==1?true:false));
+                    TextView textView = (TextView)container.getChildAt(1);
+                    textView.setText(todoItem.getmContent());
+                }else{
+                    linearLayout.setVisibility(View.GONE);
+                }
 
             }
         }

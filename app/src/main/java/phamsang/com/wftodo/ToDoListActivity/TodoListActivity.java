@@ -39,6 +39,7 @@ public class TodoListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Todo List");
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(mSpanCount, StaggeredGridLayoutManager.VERTICAL));

@@ -39,6 +39,12 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         Bundle bundle = intent.getExtras();
         int color = bundle.getInt(DetailListFragment.ARG_COLOR,3);
         toolbar.setBackgroundColor(Color.getCorlor(this, color));
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finishActivity(RESULT_CANCELED);
+//            }
+//        });
 
         //set color for status bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

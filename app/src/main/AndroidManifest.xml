@@ -13,8 +13,8 @@
         <activity
             android:name=".DetailListActivity.DetailList"
             android:label="@string/app_name"
+            android:parentActivityName=".ToDoListActivity.TodoListActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".ToDoListActivity.TodoListActivity"
-            android:label="@string/title_activity_todo_list"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

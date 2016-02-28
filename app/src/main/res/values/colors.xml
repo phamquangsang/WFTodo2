@@ -2,13 +2,13 @@
 <resources>
     <color name="colorPrimary">#F44336</color>
     <color name="colorPrimaryDark">#D32F2F</color>
-    <color name="colorAccent">#2196F3</color>
+    <color name="colorAccent">#4CAF50</color>
 
 
     <!--color using for notes-->
-    <color name="blue">#90CAF9</color>
+    <color name="blue">#64B5F6</color>
     <color name="teal">#4DB6AC</color>
-    <color name="light_green">#CCFF90</color>
+    <color name="light_green">#81C784</color>
     <color name="amber">#FFD54F</color>
     <color name="red">#E57373</color>
     <color name="grey">#90A4AE</color>

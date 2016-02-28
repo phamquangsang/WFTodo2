@@ -25,12 +25,11 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [] List anything else that you can get done to improve the app functionality!
+* [ ] List anything else that you can get done to improve the app functionality!
 * [x] [optimize performance]Database operations work in background thread.
 * [x] User can successfully insert/edit/delete to-do lists.
 * [x] User can tap a to-do list and bring up an edit screen for the insert/edit/delete items in that list.
-
-* [] User can change color of a to-do list (comming soon).
+* [x] User can change color of a to-do list.
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:

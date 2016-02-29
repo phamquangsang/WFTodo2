@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,8 +64,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
 
         TodoListObject item = mDataSet.get(position);
         holder.mData = item;
-
-        holder.mView.setBackgroundColor(Color.getCorlor(mContext,item.getColor()));
+        if(holder.mView instanceof CardView){
+            CardView cardView = (CardView)holder.mView;
+            cardView.setCardBackgroundColor(Color.getCorlor(mContext,item.getColor()));
+        }
+        //holder.mView.setBackgroundColor(Color.getCorlor(mContext,item.getColor()));
         String title = item.getTitle();
         holder.mIdList = item.getIdList();
         if(title.isEmpty()){

@@ -3,6 +3,7 @@ package phamsang.com.wftodo.ToDoListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,8 @@ import phamsang.com.wftodo.BackgroundTask.CreateNewListTask;
 import phamsang.com.wftodo.BackgroundTask.DeleteTodoListTask;
 import phamsang.com.wftodo.BackgroundTask.QueryTodoList;
 import phamsang.com.wftodo.R;
+import phamsang.com.wftodo.data.Contract;
+import phamsang.com.wftodo.data.TodoDatabaseHelper;
 
 public class TodoListActivity extends AppCompatActivity {
     public static final int DETAIL_ACTIVITY_REQUEST_CODE=1;
@@ -57,13 +60,21 @@ public class TodoListActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 TodoListAdapter.ViewHolder todoViewHolder = (TodoListAdapter.ViewHolder)viewHolder;
-                DeleteTodoListTask deleteTodoListTask = new DeleteTodoListTask(getApplicationContext());
-                deleteTodoListTask.execute(todoViewHolder.getIdList());
+//                DeleteTodoListTask deleteTodoListTask = new DeleteTodoListTask(getApplicationContext());
+//                deleteTodoListTask.execute(todoViewHolder.getIdList());
 
-                mAdapter.getDataSet().remove(todoViewHolder.getData());
+                TodoDatabaseHelper dbHelper = new TodoDatabaseHelper(TodoListActivity.this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                String selection = Contract.TodoListEntry._ID+"=?";
+                String[] selectionArg = {Integer.toString(todoViewHolder.getIdList())};
+                int result = db.delete(Contract.TodoListEntry.TABLE_NAME,selection,selectionArg);
+                Log.i(LOG_TAG, "delete todoList Id: "+todoViewHolder.getIdList()+" - result code: "+result);
+                db.close();
 
-                mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                //mAdapter.notifyItemRangeChanged(viewHolder.getAdapterPosition(),mAdapter.getItemCount());
+                if(result!=0){
+                    mAdapter.getDataSet().remove(todoViewHolder.getData());
+                    mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                }
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);

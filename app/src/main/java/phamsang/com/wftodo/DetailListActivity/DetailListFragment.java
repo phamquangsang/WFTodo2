@@ -107,7 +107,7 @@ public class DetailListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_detail_list, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_detail_list, container, false);
         mRootView = rootView;
 
 
@@ -127,7 +127,7 @@ public class DetailListFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
 
-        DetailListAdapter adapter = new DetailListAdapter(null,getContext(),mIdList);
+        final DetailListAdapter adapter = new DetailListAdapter(null,getContext(),mIdList);
         mAdapter = adapter;
         mRecyclerView.setAdapter(adapter);
 
@@ -135,8 +135,17 @@ public class DetailListFragment extends Fragment {
         rootView.setBackgroundColor(Color.getCorlor(getContext(),mColor));
         mRecyclerView.setBackgroundColor(Color.getCorlor(getContext(),mColor));
 
-        EditText titleEditText = (EditText) rootView.findViewById(R.id.title_edit_text);
+        final EditText titleEditText = (EditText) rootView.findViewById(R.id.title_edit_text);
         titleEditText.setText(mListTitle);
+        titleEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_TAB){
+                    return true;
+                }
+                return false;
+            }
+        });
         titleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

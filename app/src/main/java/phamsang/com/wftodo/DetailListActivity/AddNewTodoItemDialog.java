@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,16 @@ public class AddNewTodoItemDialog extends DialogFragment {
 
         View rootView = inflater.inflate(R.layout.todo_item_dialog, null);
         editText = (EditText)rootView.findViewById(R.id.edit_text_item);
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    onPositiveButtonClick();
+                    return true;
+                }
+                return false;
+            }
+        });
         checkBox = (CheckBox)rootView.findViewById(R.id.checkBox);
         checkBox.setChecked(mIsDone);
         editText.setText(mContent);
@@ -79,26 +90,7 @@ public class AddNewTodoItemDialog extends DialogFragment {
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String content = editText.getText().toString();
-                        String contentNoneSpace = content.replaceAll("\\s","");
-                        if(contentNoneSpace.isEmpty()==true){
-                            return;
-                        }
-                        Calendar carlendar = Calendar.getInstance();
-                        final long time = carlendar.getTimeInMillis();
-                        ContentValues value = new ContentValues();
-                        value.put(Contract.TodoItemEntry.COLLUMN_CONTENT,content.trim());
-                        value.put(Contract.TodoItemEntry.COLLUMN_IS_DONE,checkBox.isChecked());
-                        value.put(Contract.TodoItemEntry.COLUMN_TIME,time);
-                        value.put(Contract.TodoItemEntry.COLLUMN_LIST_ID,mListId);
-                        if(mIdItem==-1){//insert to database
-                            InsertTodoItemTask insertTask = new InsertTodoItemTask(getContext());
-                            insertTask.execute(value);
-                        }else{//update
-                            UpdateTodoItemTask updateTask = new UpdateTodoItemTask(getContext(),value,mIdItem);
-                            updateTask.execute();
-                        }
-                        mListener.onDialogPositiveClick(AddNewTodoItemDialog.this);
+                        onPositiveButtonClick();
                     }
                 })
                 .setNegativeButton(R.string.discard, new DialogInterface.OnClickListener() {
@@ -135,5 +127,29 @@ public class AddNewTodoItemDialog extends DialogFragment {
             throw new ClassCastException(activity.toString()
                     + " must implement NoticeDialogListener");
         }
+    }
+
+    void onPositiveButtonClick(){
+        String content = editText.getText().toString();
+        String contentNoneSpace = content.replaceAll("\\s","");
+        if(contentNoneSpace.isEmpty()==true){
+            return;
+        }
+        Calendar carlendar = Calendar.getInstance();
+        final long time = carlendar.getTimeInMillis();
+        ContentValues value = new ContentValues();
+        value.put(Contract.TodoItemEntry.COLLUMN_CONTENT,content.trim());
+        value.put(Contract.TodoItemEntry.COLLUMN_IS_DONE,checkBox.isChecked());
+        value.put(Contract.TodoItemEntry.COLUMN_TIME,time);
+        value.put(Contract.TodoItemEntry.COLLUMN_LIST_ID,mListId);
+        if(mIdItem==-1){//insert to database
+            InsertTodoItemTask insertTask = new InsertTodoItemTask(getContext());
+            insertTask.execute(value);
+        }else{//update
+            UpdateTodoItemTask updateTask = new UpdateTodoItemTask(getContext(),value,mIdItem);
+            updateTask.execute();
+        }
+        mListener.onDialogPositiveClick(AddNewTodoItemDialog.this);
+        dismiss();
     }
 }

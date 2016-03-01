@@ -79,7 +79,7 @@ public class AddNewTodoItemDialog extends DialogFragment {
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String content = editText.getText().toString();
+                        String content = editText.getText().toString().replaceAll("\\s","");
                         if(content.isEmpty()==true){
                             return;
                         }

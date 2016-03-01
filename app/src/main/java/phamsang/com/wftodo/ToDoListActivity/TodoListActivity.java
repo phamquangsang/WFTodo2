@@ -48,7 +48,6 @@ public class TodoListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(mSpanCount, StaggeredGridLayoutManager.VERTICAL));
         mAdapter = new TodoListAdapter(this,null);
         mRecyclerView.setAdapter(mAdapter);
-        QueryTodoList queryTodoList = new QueryTodoList(this, mAdapter);
         refeshList();
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -74,6 +73,7 @@ public class TodoListActivity extends AppCompatActivity {
                 if(result!=0){
                     mAdapter.getDataSet().remove(todoViewHolder.getData());
                     mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+
                 }
             }
         };

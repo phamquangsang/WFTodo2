@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import phamsang.com.wftodo.BackgroundTask.DeleteTodoListTask;
 import phamsang.com.wftodo.Color;
 import phamsang.com.wftodo.R;
 import phamsang.com.wftodo.ToDoListActivity.TodoListActivity;
@@ -92,6 +93,8 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
             bundle.putInt(ChangeColorDialog.TODO_ITEM_LIST_ID,arg.getInt(DetailListFragment.ARG_ID_LIST));
             changeColorDialog.setArguments(bundle);
             changeColorDialog.show(getFragmentManager(),ChangeColorDialog.DIALOG_TAG);
+        }else if( id== android.R.id.home){
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);
@@ -128,8 +131,24 @@ public class DetailList extends AppCompatActivity implements DetailListFragment.
         detailListFragment.changeColor(color);
     }
 
+
+
     @Override
     public void onColorPicked(int pickedColor) {
         changeColor(pickedColor);
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        DetailListFragment detailFragment =(DetailListFragment)fm.findFragmentByTag(DetailListFragment.RECYCLER_FRAGMENT_TAG);
+        String nonSpace = detailFragment.getListTitle().replaceAll("\\s","");
+        if(nonSpace.isEmpty() && detailFragment.getAdapter().getItemCount()==0){
+            //delete empty ListId
+            DeleteTodoListTask deleteTodoListTask = new DeleteTodoListTask(this);
+            deleteTodoListTask.execute(detailFragment.getIdList());
+        }
+        Log.d("DetailListActivity","onBackPressed()");
+        super.onBackPressed();
     }
 }

@@ -37,9 +37,17 @@ public class DetailListFragment extends Fragment {
     private static final java.lang.String DIALOG_ADD_NEW_ITEM = AddNewTodoItemDialog.class.getSimpleName();
     public static final int INVALID_ID_LIST = -1;
     public static final String RECYCLER_FRAGMENT_TAG = "recycler_fragment";
-
     private final String LOG_TAG = DetailListFragment.class.getSimpleName();
+
     private DetailListAdapter mAdapter;
+    private boolean mIsTitleChanged=false;
+    private int mColumnCount = 1;
+    private int mIdList = 1;
+    private String mListTitle="";
+    private int mColor;
+    private RecyclerView mRecyclerView;
+    private View mRootView;
+    private OnListFragmentInteractionListener mListener;
 
     public void setIdList(int idList) {
         mIdList = idList;
@@ -63,15 +71,7 @@ public class DetailListFragment extends Fragment {
     public static final String ARG_TITLE = "list_title";
     public static final String ARG_COLOR = "list_color";
 
-    private boolean mIsTitleChanged=false;
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private int mIdList = 1;
-    private String mListTitle="";
-    private int mColor;
-    private RecyclerView mRecyclerView;
-    private View mRootView;
-    private OnListFragmentInteractionListener mListener;
+
 
     public DetailListFragment() {
     }
@@ -204,13 +204,6 @@ public class DetailListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        if(mListTitle.isEmpty() && mAdapter.getItemCount()==0){
-            //delete empty ListId
-            DeleteTodoListTask deleteTodoListTask = new DeleteTodoListTask(getContext());
-            deleteTodoListTask.execute(mIdList);
-
-
-        }
         Log.d(LOG_TAG,"onDetach()");
 
     }
@@ -236,4 +229,19 @@ public class DetailListFragment extends Fragment {
         mRootView.setBackgroundColor(Color.getCorlor(getContext(),color));
     }
 
+    public int getIdList() {
+        return mIdList;
+    }
+
+    public boolean isTitleChanged() {
+        return mIsTitleChanged;
+    }
+
+    public String getListTitle() {
+        return mListTitle;
+    }
+
+    public DetailListAdapter getAdapter() {
+        return mAdapter;
+    }
 }

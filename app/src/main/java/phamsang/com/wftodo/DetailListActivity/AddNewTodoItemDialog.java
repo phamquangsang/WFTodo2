@@ -79,14 +79,15 @@ public class AddNewTodoItemDialog extends DialogFragment {
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String content = editText.getText().toString().replaceAll("\\s","");
-                        if(content.isEmpty()==true){
+                        String content = editText.getText().toString();
+                        String contentNoneSpace = content.replaceAll("\\s","");
+                        if(contentNoneSpace.isEmpty()==true){
                             return;
                         }
                         Calendar carlendar = Calendar.getInstance();
                         final long time = carlendar.getTimeInMillis();
                         ContentValues value = new ContentValues();
-                        value.put(Contract.TodoItemEntry.COLLUMN_CONTENT,content);
+                        value.put(Contract.TodoItemEntry.COLLUMN_CONTENT,content.trim());
                         value.put(Contract.TodoItemEntry.COLLUMN_IS_DONE,checkBox.isChecked());
                         value.put(Contract.TodoItemEntry.COLUMN_TIME,time);
                         value.put(Contract.TodoItemEntry.COLLUMN_LIST_ID,mListId);

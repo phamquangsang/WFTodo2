@@ -155,7 +155,7 @@ public class DetailListFragment extends Fragment {
                 mListTitle = s.toString();
                 if(mIsTitleChanged==true){
                     ContentValues value = new ContentValues();
-                    value.put(Contract.TodoListEntry.COLLUMN_TITLE,mListTitle);
+                    value.put(Contract.TodoListEntry.COLLUMN_TITLE,mListTitle.trim());
                     UpdateTodoListTask updateListTask = new UpdateTodoListTask(getContext(),value,mIdList);
                     updateListTask.execute();
                     //Toast.makeText(getContext(),mListTitle+" ready to save..",Toast.LENGTH_SHORT).show();
